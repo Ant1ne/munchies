@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../api/axiosConfig";
+import { fetchRestaurants } from "../services/api";
 import RestaurantCard from "./RestaurantCard";
 import CategoryBar from "./CategoryBar";
 
@@ -9,6 +9,7 @@ interface Restaurant {
   deliveryTime: string;
   priceRange: string;
   isOpen: boolean | null;
+  image_url: string;
 }
 
 interface ErrorState {
@@ -35,16 +36,21 @@ const RestaurantList: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await axios.get("/restaurants");
-        const { restaurants } = response.data;
+        const response = await fetchRestaurants();
+        console.log("API response:", response);
+        const { data: { restaurants = [] } = {} } = response;
+        console.log("Fetched restaurants:", restaurants);
         setRestaurants(restaurants);
         console.log("Received restaurants:", restaurants);
-      } catch (error) {
+      } catch (error: any) {
         console.error(
           "There was an error fetching the restaurant list!",
-          error
+          error.response || error
         );
-        setError({ message: "An unexpected error occurred." });
+        setError({
+          message:
+            error.response?.data?.message || "An unexpected error occurred.",
+        });
       } finally {
         setIsLoading(false);
       }

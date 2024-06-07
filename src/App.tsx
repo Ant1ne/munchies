@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
+import useViewport from "./hooks/useViewport";
 import munchies from "./images/munchies.svg";
 import munchieswhite from "./images/munchies_white.svg";
 import Header from "./components/Header";
@@ -8,6 +9,15 @@ import FilterBar from "./components/FilterBar";
 
 const App: React.FC = () => {
   const [showRestaurantList, setShowRestaurantList] = useState(false);
+  const { width } = useViewport();
+
+  useEffect(() => {
+    if (width >= 768) {
+      setShowRestaurantList(true);
+    } else {
+      setShowRestaurantList(false);
+    }
+  }, [width]);
 
   const categories = [
     "Hamburgers",
@@ -37,10 +47,6 @@ const App: React.FC = () => {
                 className="mt-8 px-6 py-2 bg-white text-green-600 font-bold rounded"
                 onClick={() => {
                   setShowRestaurantList(true);
-                  console.log(
-                    "showRestaurantList updated:",
-                    showRestaurantList
-                  );
                 }}
               >
                 Continue

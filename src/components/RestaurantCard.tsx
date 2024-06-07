@@ -7,6 +7,7 @@ interface Restaurant {
   deliveryTime: string;
   priceRange: string;
   isOpen: boolean | null;
+  image_url: string;
 }
 
 interface RestaurantCardProps {
@@ -45,6 +46,12 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           <div className="justify-center px-3 py-2 bg-white text-black border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
             {restaurant.deliveryTime}
           </div>
+          <img
+            loading="lazy"
+            src={restaurant.image_url}
+            alt={restaurant.name}
+            className="shrink-0 max-w-full aspect-square w-[110px]"
+          />
           <h2 className="text-lg font-semibold">{restaurant.name}</h2>
           <span
             className={`px-2 py-1 rounded ${
