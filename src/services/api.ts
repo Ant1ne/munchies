@@ -41,19 +41,4 @@ api.interceptors.response.use(
 
 export const fetchRestaurants = () => api.get("/restaurants");
 
-interface OpenResponse {
-  data: { restaurant_id: string; is_open: boolean };
-}
-
-export const checkRestaurantOpen = async (
-  id: string
-): Promise<OpenResponse> => {
-  const url = `/open/${id}`;
-  const response = await api.get(url);
-
-  if (!response.data) {
-    throw new Error("No data received from the API");
-  }
-
-  return response.data as OpenResponse;
-};
+// export const checkRestaurantOpen = () => api.get(`/open/${id}`);

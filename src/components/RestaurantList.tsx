@@ -6,8 +6,8 @@ import CategoryBar from "./CategoryBar";
 interface Restaurant {
   id: string;
   name: string;
-  deliveryTime: string;
-  priceRange: string;
+  delivery_time_minutes: number;
+  price_range_id: string;
   isOpen: boolean | null;
   image_url: string;
 }
@@ -22,13 +22,41 @@ const RestaurantList: React.FC = () => {
   const [error, setError] = useState<ErrorState | null>(null);
 
   const categories = [
-    "Hamburgers",
-    "Pizza",
-    "Taco",
-    "Coffee",
-    "Fries",
-    "Mexican",
-    "Breakfast",
+    {
+      name: "Hamburgers",
+      imgSrc: "https://ibb.co/89q2w2F",
+      imgAlt: "Image of Hamburger",
+    },
+    {
+      name: "Pizza",
+      imgSrc: "https://ibb.co/JQgPxtr",
+      imgAlt: "Image of Pizza",
+    },
+    {
+      name: "Taco",
+      imgSrc: "https://ibb.co/d64zkRg",
+      imgAlt: "Image of Taco",
+    },
+    {
+      name: "Coffee",
+      imgSrc: "https://ibb.co/KVpRVbc",
+      imgAlt: "Image of Coffee",
+    },
+    {
+      name: "Fries",
+      imgSrc: "https://ibb.co/zSsqxZC",
+      imgAlt: "Image of Fries",
+    },
+    {
+      name: "Mexican",
+      imgSrc: "https://ibb.co/g70jZZS",
+      imgAlt: "Image of Burrito",
+    },
+    {
+      name: "Breakfast",
+      imgSrc: "https://ibb.co/drQ4cpb",
+      imgAlt: "Image of Egg and Bacon",
+    },
   ];
 
   useEffect(() => {

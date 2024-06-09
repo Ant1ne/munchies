@@ -1,7 +1,13 @@
 import React from "react";
 
+interface Category {
+  name: string;
+  imgSrc: string
+  imgAlt: string;
+}
+
 interface CategoryBarProps {
-  categories: string[];
+  categories: Category[];
 }
 
 const CategoryBar: React.FC<CategoryBarProps> = ({ categories }) => {
@@ -9,9 +15,12 @@ const CategoryBar: React.FC<CategoryBarProps> = ({ categories }) => {
     <div className="overflow-x-auto whitespace-nowrap bg-white p-4 shadow rounded-lg mb-6">
       <div className="flex space-x-4">
         {categories.map((category, index) => (
-          <button key={index} className="px-4 py-2 bg-gray-200 rounded-full">
-            {category}
-          </button>
+          <div className="flex gap-1 pl-3 bg-white rounded-lg border border-solid shadow-xl border-black border-opacity-10">
+            <h2 key={index} className="grow self-start mt-5">
+              {category.name}
+            </h2>
+            <img src={category.imgSrc} alt={category.imgAlt} />
+          </div>
         ))}
       </div>
     </div>
