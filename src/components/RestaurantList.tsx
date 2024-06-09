@@ -61,7 +61,7 @@ const RestaurantList: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 px-4">
-      <div className="lg:col-span-1">
+      <div className="lg:col-span-1 category-bar col-span-1 md:col-span-2">
         <CategoryBar categories={categories} />
         <div className="lg:col-span-3">
           <h2 className="mt-12 text-4xl tracking-tight leading-10 text-black max-md:mt-10 max-md:max-w-full">
@@ -70,7 +70,7 @@ const RestaurantList: React.FC = () => {
           {isLoading && <p>Loading the restaurants...</p>}
           {error && <p>Error fetching data: {error.message}</p>}
           {!isLoading && !error && restaurants.length > 0 && (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap gap-4 w-auto">
               {restaurants.map((restaurant) => (
                 <RestaurantCard key={restaurant.id} restaurant={restaurant} />
               ))}

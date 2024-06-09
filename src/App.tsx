@@ -34,7 +34,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen">
       {!showRestaurantList ? (
-        <div className="flex items-center justify-center min-h-screen bg-green-600 welcome-screen">
+        <div className="flex items-center justify-center min-h-screen bg-green-900 welcome-screen">
           <div className="text-center text-white px-6">
             <div className="mt-16 justify-center">
               <img src={munchieswhite} alt="Munchies logo white" />
@@ -44,7 +44,7 @@ const App: React.FC = () => {
                 your place!
               </p>
               <button
-                className="mt-8 px-6 py-2 bg-white text-green-600 font-bold rounded"
+                className="mt-8 px-6 py-2 bg-white text-green-900 font-bold rounded"
                 onClick={() => {
                   setShowRestaurantList(true);
                 }}
@@ -62,13 +62,19 @@ const App: React.FC = () => {
             title="Munchies - Treat Yourself"
             className="flex items-center justify-between mb-8"
           />
-          <div className="flex justify-between">
-            <FilterBar
-              categories={categories}
-              deliveryTimes={deliveryTimes}
-              priceRanges={priceRanges}
-            />
-            <RestaurantList />
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+              <div className="filter-bar col-span-1 md:col-span-2 bg-white rounded shadow-md p-4">
+                <FilterBar
+                  categories={categories}
+                  deliveryTimes={deliveryTimes}
+                  priceRanges={priceRanges}
+                />
+              </div>
+              <div className="restaurant-list col-span-1 md:col-span-4">
+                <RestaurantList />
+              </div>
+            </div>
           </div>
         </main>
       )}

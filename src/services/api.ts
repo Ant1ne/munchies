@@ -41,31 +41,19 @@ api.interceptors.response.use(
 
 export const fetchRestaurants = () => api.get("/restaurants");
 
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
+interface OpenResponse {
+  data: { restaurant_id: string; is_open: boolean };
+}
 
-// export const fetchRestaurants = async () => {
-//   const response = await fetch(`${BASE_URL}/restaurants`);
-//   console.log("Fetched response:", response);
+export const checkRestaurantOpen = async (
+  id: string
+): Promise<OpenResponse> => {
+  const url = `/open/${id}`;
+  const response = await api.get(url);
 
-//   if (!response.ok) {
-//     throw new Error(`Network response was not ok: ${response.status}`);
-//   }
+  if (!response.data) {
+    throw new Error("No data received from the API");
+  }
 
-//   const data = await response.json();
-//   console.log("Parsed response data:", data);
-//   return data;
-// };
-
-// import axios from "axios";
-
-// const api = axios.create({
-//   baseURL: "https://work-test-web-2024-eze6j4scpq-lz.a.run.app/api",
-// });
-
-// // Optional: Add error handling for Axios instance creation
-// api.interceptors.request.use(
-//   (config) => config,
-//   (error) => Promise.reject(error)
-// );
-
-// export default api;
+  return response.data as OpenResponse;
+};

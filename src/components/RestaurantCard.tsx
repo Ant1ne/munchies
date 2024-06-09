@@ -1,5 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { checkRestaurantOpen } from "../services/api";
+import arrow from "../images/arrow.svg";
 
 interface Restaurant {
   id: string;
@@ -21,8 +22,8 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
     const fetchOpenStatus = async () => {
       if (restaurant.isOpen === null) {
         try {
-          const response = await axios.get(`/open/${restaurant.id}`);
-          setIsOpen(response.data);
+          const response = await checkRestaurantOpen(restaurant.id);
+          setIsOpen(response.data.is_open);
         } catch (error) {
           console.error(
             `Error fetching open/closed status for restaurant ${restaurant.id}`,
@@ -36,15 +37,17 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
   }, [restaurant]);
 
   return (
-    <div className="flex flex-col grow justify-between pb-4 pl-4 mx-auto w-full bg-white rounded-lg border border-solid shadow-xl border-black border-opacity-10 max-md:mt-4">
-      <div className="flex gap-5 justify-between w-full text-xs tracking-tight leading-3 text-black">
-        <div className="flex gap-2 self-start mt-4">
-          <div className="flex gap-1 justify-center py-2 pr-3 pl-2.5 whitespace-nowrap bg-white border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
-            <div className="shrink-0 my-auto w-2 h-2 bg-emerald-800 rounded-full" />
-            <span>{restaurant.isOpen}</span>
-          </div>
-          <div className="justify-center px-3 py-2 bg-white text-black border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
-            {restaurant.deliveryTime}
+    <div className="flex w-[327px] h-[202px] p-4 flex-col justify-between items-start flex-shrink-0 border rounded-lg shadow-lg">
+      <div className="flex-grow">
+        <section className="flex gap-5 justify-between w-full text-xs tracking-tight leading-3 text-black">
+          <div className="flex gap-2 self-start mt-4">
+            <div className="flex gap-1 justify-center py-2 pr-3 pl-2.5 whitespace-nowrap bg-white border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
+              <div className="shrink-0 my-auto w-2 h-2 bg-emerald-800 rounded-full" />
+              <span>{restaurant.isOpen}</span>
+            </div>
+            <div className="justify-center px-3 py-2 bg-white border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
+              <span>{restaurant.deliveryTime}</span>
+            </div>
           </div>
           <img
             loading="lazy"
@@ -52,18 +55,19 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
             alt={restaurant.name}
             className="shrink-0 max-w-full aspect-square w-[110px]"
           />
-          <h2 className="text-lg font-semibold">{restaurant.name}</h2>
-          <span
-            className={`px-2 py-1 rounded ${
-              restaurant.isOpen
-                ? "bg-green-500 text-white"
-                : "bg-red-500 text-white"
-            }`}
+        </section>
+        <header className="flex justify-between items-end w-72">
+          <h1 className="text-2xl tracking-tight leading-6 text-black">
+            {restaurant.name}
+          </h1>
+          <div
+            className="flex flex-col justify-center items-start px-2.5 py-3 bg-emerald-800 rounded-[88px]"
+            role="button"
+            tabIndex={0}
           >
-            {restaurant.isOpen ? "Open" : "Closed"}
-          </span>
-        </div>
-        <p className="text-gray-500">{restaurant.deliveryTime}</p>
+            <img loading="lazy" src={arrow} alt="Arrow right" />
+          </div>
+        </header>
       </div>
     </div>
   );
