@@ -6,10 +6,14 @@ import munchieswhite from "./images/munchies_white.svg";
 import Header from "./components/Header";
 import RestaurantList from "./components/RestaurantList";
 import FilterBar from "./components/FilterBar";
+import Restaurant from "./models/Restaurant";
+import { fetchRestaurants } from "./services/api";
 
 const App: React.FC = () => {
   const [showRestaurantList, setShowRestaurantList] = useState(false);
   const { width } = useViewport();
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [priceRangeOptions, setPriceRangeOptions] = useState<string[]>([]);
 
   useEffect(() => {
     if (width >= 768) {
@@ -28,8 +32,33 @@ const App: React.FC = () => {
     "Mexican",
     "Breakfast",
   ];
-  const deliveryTimes = ["0-10 min", "10-30 min", "30-60 min", "1 hour+"];
-  const priceRanges = ["$", "$$", "$$$", "$$$$"];
+  // const deliveryTimes = ["0-10 min", "10-30 min", "30-60 min", "1 hour+"];
+  // const priceRanges = ["$", "$$", "$$$", "$$$$"];
+
+  const deliveryTimesInMinutes = restaurants.map(
+    (restaurant) => restaurant.delivery_time_minutes
+  );
+  const priceRangeIds = restaurants.map(
+    (restaurant) => restaurant.price_range_id
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchRestaurants();
+        const restaurants = response.data;
+
+        const priceRangeSet = new Set(restaurants.map((restaurant) => restaurant.price_range.range));
+        setPriceRangeOptions(Array.from(priceRangeSet));
+
+        setRestaurants(restaurants);
+      } catch (error) {
+        console.error("Error fetching restaurants:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -67,8 +96,11 @@ const App: React.FC = () => {
               <div className="filter-bar col-span-1 md:col-span-2 bg-white rounded shadow-md p-4">
                 <FilterBar
                   categories={categories}
-                  delivery_time_minutes={deliveryTimes}
-                  price_range_id={priceRanges}
+                  // delivery_time_minutes={deliveryTimes}
+                  // price_range_id={priceRanges}
+                  delivery_time_minutes={deliveryTimesInMinutes}
+                  price_range_id={priceRangeOptions}
+                />
               </div>
               <div className="restaurant-list col-span-1 md:col-span-4">
                 <RestaurantList />

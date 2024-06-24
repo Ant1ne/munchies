@@ -2,8 +2,8 @@ import React from "react";
 
 interface FilterBarProps {
   categories: string[];
-  delivery_time_minutes: number;
-  price_range_id: string;
+  delivery_time_minutes: number[];
+  price_range_id: string[];
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
@@ -47,7 +47,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
               Food Category
             </h2>
             {categories.slice(0, 4).map((category, index) => (
-              <div className="flex justify-start gap-8">
+              <div key={index} className="flex justify-start gap-8">
                 <button
                   key={index}
                   className="px-3 py-2 mt-2.5 whitespace-nowrap rounded-md border border-solid border-black border-opacity-10 flex justify-start gap-4 "

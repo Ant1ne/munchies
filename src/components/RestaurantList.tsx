@@ -2,15 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchOpenRestaurants, fetchRestaurants } from "../services/api";
 import RestaurantCard from "./RestaurantCard";
 import CategoryBar from "./CategoryBar";
-
-interface Restaurant {
-  id: string;
-  name: string;
-  delivery_time_minutes: number;
-  price_range_id: string;
-  image_url: string;
-  is_open: boolean | null;
-}
+import Restaurant from "../models/Restaurant";
 
 interface ErrorState {
   message?: string;
