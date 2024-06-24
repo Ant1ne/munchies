@@ -2,16 +2,16 @@ import React from "react";
 
 interface FilterBarProps {
   categories: string[];
-  deliveryTimes: string[];
-  priceRanges: string[];
+  delivery_time_minutes: number;
+  price_range_id: string;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
   categories,
-  deliveryTimes,
-  priceRanges,
+  delivery_time_minutes,
+  price_range_id,
 }) => {
-  const isMobile = () => window.innerWidth <= 768; // Adjust breakpoint as needed
+  const isMobile = () => window.innerWidth <= 768;
 
   return (
     <div
@@ -26,7 +26,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
               DELIVERY TIME
             </h2>
             <div className="flex flex-wrap gap-2 mt-4">
-              {deliveryTimes.map((time, index) => (
+              {delivery_time_minutes.map((time, index) => (
                 <button
                   key={index}
                   className="justify-center px-3 py-2 bg-white rounded-lg border border-solid shadow-xl border-black border-opacity-10"
@@ -63,10 +63,10 @@ const FilterBar: React.FC<FilterBarProps> = ({
               Delivery Time
             </h2>
             <div className="flex flex-wrap gap-2 mt-4">
-              {deliveryTimes.map((time, index) => (
+              {delivery_time_minutes.map((time, index) => (
                 <button
                   key={index}
-                  className="justify-center px-3 py-2 bg-white rounded-lg border border-solid shadow-xl border-black border-opacity-10"
+                  className="justify-center px-3 py-2 bg-white rounded-lg border border-solid border-black border-opacity-10"
                   tabIndex={0}
                 >
                   {time}
@@ -79,7 +79,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
               Price Range
             </h2>
             <div className="flex gap-2 pr-7 mt-4 whitespace-nowrap max-md:pr-5">
-              {priceRanges.map((price, index) => (
+              {price_range_id.map((price, index) => (
                 <button
                   key={index}
                   className="justify-center p-2 rounded-lg border border-solid border-black border-opacity-10"

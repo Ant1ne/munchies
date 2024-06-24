@@ -67,9 +67,8 @@ const App: React.FC = () => {
               <div className="filter-bar col-span-1 md:col-span-2 bg-white rounded shadow-md p-4">
                 <FilterBar
                   categories={categories}
-                  deliveryTimes={deliveryTimes}
-                  priceRanges={priceRanges}
-                />
+                  delivery_time_minutes={deliveryTimes}
+                  price_range_id={priceRanges}
               </div>
               <div className="restaurant-list col-span-1 md:col-span-4">
                 <RestaurantList />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchRestaurants } from "../services/api";
+import { fetchOpenRestaurants, fetchRestaurants } from "../services/api";
 import RestaurantCard from "./RestaurantCard";
 import CategoryBar from "./CategoryBar";
 
@@ -8,8 +8,8 @@ interface Restaurant {
   name: string;
   delivery_time_minutes: number;
   price_range_id: string;
-  isOpen: boolean | null;
   image_url: string;
+  is_open: boolean | null;
 }
 
 interface ErrorState {
@@ -66,10 +66,37 @@ const RestaurantList: React.FC = () => {
       try {
         const response = await fetchRestaurants();
         console.log("API response:", response);
-        const { data: { restaurants = [] } = {} } = response;
-        console.log("Fetched restaurants:", restaurants);
+        // const { data: { restaurants = [] } = {} } = response;
+        const { data = {} } = response;
+        // console.log("Fetched restaurants:", restaurants);
+        console.log("Fetched restaurants:", data.restaurants);
+        const restaurants = data.restaurants || [];
         setRestaurants(restaurants);
         console.log("Received restaurants:", restaurants);
+      } catch (error: any) {
+        console.error(
+          "There was an error fetching the restaurant list!",
+          error.response || error
+        );
+        setError({
+          message:
+            error.response?.data?.message || "An unexpected error occurred.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const openRestaurants = await fetchOpenRestaurants("");
+        setRestaurants(openRestaurants || []);
       } catch (error: any) {
         console.error(
           "There was an error fetching the restaurant list!",
@@ -92,7 +119,7 @@ const RestaurantList: React.FC = () => {
       <div className="lg:col-span-1 category-bar col-span-1 md:col-span-2">
         <CategoryBar categories={categories} />
         <div className="lg:col-span-3">
-          <h2 className="mt-12 text-4xl tracking-tight leading-10 text-black max-md:mt-10 max-md:max-w-full">
+          <h2 className="mt-12 mb-12 text-4xl tracking-tight leading-10 text-black max-md:mt-10 max-md:max-w-full">
             Restaurant's
           </h2>
           {isLoading && <p>Loading the restaurants...</p>}

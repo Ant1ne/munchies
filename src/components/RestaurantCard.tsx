@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-// import { checkRestaurantOpen } from "../services/api";
+import React from "react";
 import arrow from "../images/arrow.svg";
+
 
 interface Restaurant {
   id: string;
   name: string;
   delivery_time_minutes: number;
   price_range_id: string;
-  isOpen: boolean | null;
   image_url: string;
+  is_open: boolean | null;
 }
 
 interface RestaurantCardProps {
@@ -16,25 +16,6 @@ interface RestaurantCardProps {
 }
 
 const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
-  // const [isOpen, setIsOpen] = useState<boolean | null>(null);
-
-  // useEffect(() => {
-  //   const fetchOpenStatus = async () => {
-  //     if (restaurant.isOpen === null) {
-  //       try {
-  //         const response = await checkRestaurantOpen();
-  //         setIsOpen(response.data.is_open);
-  //       } catch (error) {
-  //         console.error(
-  //           `Error fetching open/closed status for restaurant ${restaurant.id}`,
-  //           error
-  //         );
-  //       }
-  //     }
-  //   };
-
-  //   fetchOpenStatus();
-  // }, [restaurant]);
 
   return (
     <div className="flex w-[327px] h-[202px] p-4 flex-col justify-between items-start flex-shrink-0 border rounded-lg shadow-lg">
@@ -43,7 +24,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
           <div className="flex gap-2 self-start mt-4">
             <div className="flex gap-1 justify-center py-2 pr-3 pl-2.5 whitespace-nowrap bg-white border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
               <div className="shrink-0 my-auto w-2 h-2 bg-emerald-800 rounded-full" />
-              <span>{restaurant.isOpen}</span>
+              <span>{restaurant.is_open}</span>
             </div>
             <div className="justify-center px-3 py-2 bg-white border border-solid shadow-xl border-black border-opacity-10 rounded-[88px]">
               <span>{restaurant.delivery_time_minutes} min</span>

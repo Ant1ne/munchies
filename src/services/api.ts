@@ -41,4 +41,17 @@ api.interceptors.response.use(
 
 export const fetchRestaurants = () => api.get("/restaurants");
 
-// export const checkRestaurantOpen = () => api.get(`/open/${id}`);
+export const fetchOpenRestaurants = async (restaurantId: string) => {
+  try {
+    if (!restaurantId) {
+      return [];
+    }
+    const url = `/api/open/?restaurant_id=${restaurantId}`;
+    const response = await api.get(url);
+    console.log("Fetched open restaurants:", response.data);
+    return response.data || [];
+  } catch (error) {
+    console.error("Error fetching open restaurants:", error);
+    throw error;
+  }
+};
